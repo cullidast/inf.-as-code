@@ -12,7 +12,7 @@ sudo virt-install \
   --vcpus=4 \
   --ram=8192 \
   --video=cirrus \
-  --graphics vnc,listen=0.0.0.0,password=cisco \
+  --graphics vnc,listen=0.0.0.0,password= \
   --noautoconsole \
   --network network=default,model=virtio \
   --os-variant=ubuntu20.04 \
