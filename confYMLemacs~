@@ -1,0 +1,15 @@
+touch ~/.emacs.d/init.el
+
+;; Установка пакетного менеджера MELPA
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+;; Установка YAML-Mode
+(unless (package-installed-p 'yaml-mode)
+  (package-refresh-contents)
+  (package-install 'yaml-mode))
+
+;; Автоматическое включение YAML-Mode для файлов .yml и .yaml
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))

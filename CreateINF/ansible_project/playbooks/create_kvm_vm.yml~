@@ -1,0 +1,38 @@
+- name: Create and configure KVM VM
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Create a virtual disk
+      command: "qemu-img create -f qcow2 /var/lib/libvirt/images/node1.qcow2 20G"
+      become: true
+
+    - name: Install required packages
+      apt:
+        name:
+          - qemu-kvm
+          - libvirt-daemon-system
+          - libvirt-clients
+          - bridge-utils
+      become: true
+      when: "'qemu-kvm' not in ansible_facts.packages or 'libvirt-daemon-system' not in ansible_facts.packages or 'libvirt-clients' not in ansible_facts.packages or 'bridge-utils' not in ansible_facts.packages"
+
+    - name: Create KVM VM
+      virt:
+        command: create
+        name: node1
+        state: running
+        memory: 8192
+        vcpus: 2
+        disks:
+          - file: /var/lib/libvirt/images/node1.qcow2
+            size: 20G
+            format: qcow2
+        interfaces:
+          - type: network
+            source: default
+            model: virtio
+        graphics:
+          type: vnc
+          listen: '0.0.0.0'
+        cdrom: /home/evgen/ubuntu-22.04.3-live-server-amd64.iso
+      become: true
