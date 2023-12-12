@@ -1,0 +1,38 @@
+touch ~/.emacs.d/init.el
+
+;; Установка пакетного менеджера MELPA
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+;; Установка YAML-Mode
+(unless (package-installed-p 'yaml-mode)
+  (package-refresh-contents)
+  (package-install 'yaml-mode))
+
+;; Автоматическое включение YAML-Mode для файлов .yml и .yaml
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+
+
+;; Добавляем MELPA репозиторий
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+;; Устанавливаем use-package, если его нет
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+;; Подключаем use-package
+(eval-when-compile
+  (require 'use-package))
+
+M-x package-install RET ansible
+
+M-x package-install RET ansible-doc
+
+M-x package-install RET auto-complete
+
+M-x package-install RET company
